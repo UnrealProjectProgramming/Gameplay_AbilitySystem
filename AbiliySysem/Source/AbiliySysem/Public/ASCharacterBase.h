@@ -33,5 +33,6 @@ public:
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const;
 
+	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
 	void AquireAbility(TSubclassOf<class UGameplayAbility> AbilityToAquire);
 };
