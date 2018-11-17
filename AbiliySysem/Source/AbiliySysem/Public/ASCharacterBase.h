@@ -8,6 +8,8 @@
 #include "AbilitySystemComponent.h"
 #include "ASCharacterBase.generated.h"
 
+class UASAttributeSetBase;
+
 UCLASS()
 class ABILIYSYSEM_API AASCharacterBase : public ACharacter, public IAbilitySystemInterface
 {
@@ -30,6 +32,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "CharacterBase")
 	UAbilitySystemComponent* AbilitySystemComp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "CharacterBase")
+	UASAttributeSetBase* AttributeSetBaseComp;
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const;
 

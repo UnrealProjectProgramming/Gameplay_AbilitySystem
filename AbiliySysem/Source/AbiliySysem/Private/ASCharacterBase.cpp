@@ -3,6 +3,7 @@
 #include "ASCharacterBase.h"
 
 #include "Abilities/GameplayAbility.h"
+#include "ASAttributeSetBase.h"
 
 // Sets default values
 AASCharacterBase::AASCharacterBase()
@@ -11,6 +12,7 @@ AASCharacterBase::AASCharacterBase()
 	PrimaryActorTick.bCanEverTick = true;
 
 	AbilitySystemComp = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComp"));
+	AttributeSetBaseComp = CreateDefaultSubobject<UASAttributeSetBase>(TEXT("AttributeSetBaseComp"));
 }
 
 // Called when the game starts or when spawned
