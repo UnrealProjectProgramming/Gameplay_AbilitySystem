@@ -19,6 +19,12 @@ AASCharacterBase::AASCharacterBase()
 void AASCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	// Subscribing to OnHealthChangedDelegate
+	if (AttributeSetBaseComp)
+	{
+		AttributeSetBaseComp->OnHealthChange.AddDynamic(this, &AASCharacterBase::OnHealthChanged);
+	}
 	
 }
 
@@ -51,5 +57,10 @@ void AASCharacterBase::AquireAbility(TSubclassOf<UGameplayAbility> AbilityToAqui
 		}
 		AbilitySystemComp->InitAbilityActorInfo(this, this);
 	}
+}
+
+void AASCharacterBase::OnHealthChanged(float Health, float MaxHealth)
+{
+	BP_OnHealthChanged(Health, MaxHealth);
 }
 

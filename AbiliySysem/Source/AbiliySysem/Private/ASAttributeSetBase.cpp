@@ -11,7 +11,7 @@
 #include "Misc/AssertionMacros.h"
 #include "GameplayEffect.h"
 
-UASAttributeSetBase::UASAttributeSetBase() : Health(200)
+UASAttributeSetBase::UASAttributeSetBase() : Health(200), MaxHealth(200)
 {
 	
 }
@@ -25,5 +25,7 @@ void UASAttributeSetBase::PostGameplayEffectExecute(const struct FGameplayEffect
 		FindFieldChecked<UProperty>(UASAttributeSetBase::StaticClass(), GET_MEMBER_NAME_CHECKED(UASAttributeSetBase, Health)))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Ouch, I took some damager, now my HP is : %f"), Health.GetCurrentValue());
+		// We are trying to create and delegate and we broadcast it when out health Change so the character can subscribe to it.
+		OnHealthChange.Broadcast(Health.GetCurrentValue(), MaxHealth.GetCurrentValue());
 	}
 }
