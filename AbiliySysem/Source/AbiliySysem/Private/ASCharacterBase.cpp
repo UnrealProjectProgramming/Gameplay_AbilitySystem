@@ -13,6 +13,7 @@ AASCharacterBase::AASCharacterBase()
 
 	AbilitySystemComp = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComp"));
 	AttributeSetBaseComp = CreateDefaultSubobject<UASAttributeSetBase>(TEXT("AttributeSetBaseComp"));
+	bHasDied = false;
 }
 
 // Called when the game starts or when spawned
@@ -61,6 +62,11 @@ void AASCharacterBase::AquireAbility(TSubclassOf<UGameplayAbility> AbilityToAqui
 
 void AASCharacterBase::OnHealthChanged(float Health, float MaxHealth)
 {
+	if (Health <= 0 && !bHasDied)
+	{
+		BP_StartDyingSequence();
+		bHasDied = true;
+	}
 	BP_OnHealthChanged(Health, MaxHealth);
 }
 
