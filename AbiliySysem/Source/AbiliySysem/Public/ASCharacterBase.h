@@ -41,6 +41,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
 	void AquireAbility(TSubclassOf<class UGameplayAbility> AbilityToAquire);
 
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "CharacterBase")
+	bool IsOtherHostile(AASCharacterBase* Other);
+
 	UFUNCTION()
 	void OnHealthChanged(float Health, float MaxHealth);
 
@@ -50,6 +53,13 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "CharacterBase", meta = (DisplayName = "StartDyingSequence"))
 	void BP_StartDyingSequence();
 
+	void AutoDetermineTeamIDByControllerType();
+
+	
 protected:
 	bool bHasDied;
+
+	uint8 TeamID;
+
+	void Dead();
 };

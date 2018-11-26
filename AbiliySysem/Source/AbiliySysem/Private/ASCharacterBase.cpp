@@ -4,6 +4,9 @@
 
 #include "Abilities/GameplayAbility.h"
 #include "ASAttributeSetBase.h"
+#include "AIController.h"
+#include "GameFramework/PlayerController.h"
+#include "BrainComponent.h"
 
 // Sets default values
 AASCharacterBase::AASCharacterBase()
@@ -14,6 +17,7 @@ AASCharacterBase::AASCharacterBase()
 	AbilitySystemComp = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComp"));
 	AttributeSetBaseComp = CreateDefaultSubobject<UASAttributeSetBase>(TEXT("AttributeSetBaseComp"));
 	bHasDied = false;
+	TeamID = 255;
 }
 
 // Called when the game starts or when spawned
@@ -26,7 +30,7 @@ void AASCharacterBase::BeginPlay()
 	{
 		AttributeSetBaseComp->OnHealthChange.AddDynamic(this, &AASCharacterBase::OnHealthChanged);
 	}
-	
+	AutoDetermineTeamIDByControllerType();
 }
 
 // Called every frame
@@ -60,13 +64,41 @@ void AASCharacterBase::AquireAbility(TSubclassOf<UGameplayAbility> AbilityToAqui
 	}
 }
 
+bool AASCharacterBase::IsOtherHostile(AASCharacterBase* Other)
+{
+	return TeamID != Other->TeamID;
+}
+
 void AASCharacterBase::OnHealthChanged(float Health, float MaxHealth)
 {
 	if (Health <= 0 && !bHasDied)
 	{
-		BP_StartDyingSequence();
 		bHasDied = true;
+		Dead();
+		BP_StartDyingSequence();
 	}
 	BP_OnHealthChanged(Health, MaxHealth);
+}
+
+void AASCharacterBase::AutoDetermineTeamIDByControllerType()
+{
+	if (GetController() && GetController()->IsPlayerController())
+	{
+		TeamID = 0;
+	}
+}
+
+void AASCharacterBase::Dead()
+{
+	APlayerController* PC = Cast<APlayerController>(GetController());
+	if (PC)
+	{
+		PC->DisableInput(PC);
+	}
+	AAIController* AIC = Cast<AAIController>(GetController());
+	if (AIC)
+	{
+		AIC->GetBrainComponent()->StopLogic("Dead");
+	}
 }
 
