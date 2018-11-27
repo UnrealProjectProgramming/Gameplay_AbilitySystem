@@ -59,7 +59,7 @@ public:
 
 	UFUNCTION()
 	void OnStrengthChanged(float Strength, float MaxStrength);
-	UFUNCTION(BlueprintImplementableEvent, Category = "CharacterBase", meta = (DisplayName = "OnManaChanged"))
+	UFUNCTION(BlueprintImplementableEvent, Category = "CharacterBase", meta = (DisplayName = "OnStrengthChanged"))
 	void BP_OnStrengthChanged(float Strength, float MaxStrength);
 
 
