@@ -29,6 +29,8 @@ void AASCharacterBase::BeginPlay()
 	if (AttributeSetBaseComp)
 	{
 		AttributeSetBaseComp->OnHealthChange.AddDynamic(this, &AASCharacterBase::OnHealthChanged);
+		AttributeSetBaseComp->OnManaChange.AddDynamic(this, &AASCharacterBase::OnManaChanged);
+		AttributeSetBaseComp->OnStrengthChange.AddDynamic(this, &AASCharacterBase::OnStrengthChanged);
 	}
 	AutoDetermineTeamIDByControllerType();
 }
@@ -78,6 +80,16 @@ void AASCharacterBase::OnHealthChanged(float Health, float MaxHealth)
 		BP_StartDyingSequence();
 	}
 	BP_OnHealthChanged(Health, MaxHealth);
+}
+
+void AASCharacterBase::OnManaChanged(float Mana, float MaxMana)
+{
+	BP_OnManaChanged(Mana, MaxMana);
+}
+
+void AASCharacterBase::OnStrengthChanged(float Strength, float MaxStrength)
+{
+	BP_OnStrengthChanged(Strength, MaxStrength);
 }
 
 void AASCharacterBase::AutoDetermineTeamIDByControllerType()
