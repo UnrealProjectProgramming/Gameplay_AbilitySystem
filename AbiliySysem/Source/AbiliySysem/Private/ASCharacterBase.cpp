@@ -7,6 +7,7 @@
 #include "AIController.h"
 #include "GameFramework/PlayerController.h"
 #include "BrainComponent.h"
+#include "GameplayTagContainer.h"
 
 // Sets default values
 AASCharacterBase::AASCharacterBase()
@@ -33,6 +34,7 @@ void AASCharacterBase::BeginPlay()
 		AttributeSetBaseComp->OnStrengthChange.AddDynamic(this, &AASCharacterBase::OnStrengthChanged);
 	}
 	AutoDetermineTeamIDByControllerType();
+	AddGameplayTag(FullHealthTag);
 }
 
 // Called every frame
@@ -71,10 +73,23 @@ bool AASCharacterBase::IsOtherHostile(AASCharacterBase* Other)
 	return TeamID != Other->TeamID;
 }
 
+void AASCharacterBase::AddGameplayTag(FGameplayTag& TagToAdd)
+{
+	GetAbilitySystemComponent()->AddLooseGameplayTag(TagToAdd);
+	GetAbilitySystemComponent()->SetTagMapCount(TagToAdd, 1);
+}
+
+void AASCharacterBase::RemoveGameplayTag(FGameplayTag& TagToRemove)
+{
+	GetAbilitySystemComponent()->RemoveLooseGameplayTag(TagToRemove);
+}
+
 void AASCharacterBase::OnHealthChanged(float Health, float MaxHealth)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Health: %d, Max Health: %d"), Health, MaxHealth);
 	if (Health <= 0 && !bHasDied)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("DEAD Health: %d, Max Health: %d"), Health, MaxHealth);
 		bHasDied = true;
 		Dead();
 		BP_StartDyingSequence();

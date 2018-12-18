@@ -9,6 +9,7 @@
 #include "ASCharacterBase.generated.h"
 
 class UASAttributeSetBase;
+struct FGameplayTag;
 
 UCLASS()
 class ABILIYSYSEM_API AASCharacterBase : public ACharacter, public IAbilitySystemInterface
@@ -46,6 +47,7 @@ public:
 
 
 
+
 	UFUNCTION()
 	void OnHealthChanged(float Health, float MaxHealth);
 	UFUNCTION(BlueprintImplementableEvent, Category = "CharacterBase", meta = (DisplayName = "OnHealthChanged"))
@@ -65,8 +67,17 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "CharacterBase", meta = (DisplayName = "StartDyingSequence"))
 	void BP_StartDyingSequence();
+
 	void AutoDetermineTeamIDByControllerType();
 
+	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
+	void AddGameplayTag(FGameplayTag &TagToAdd);
+
+	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
+	void RemoveGameplayTag(FGameplayTag &TagToRemove);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FGameplayTag FullHealthTag;
 
 	
 protected:

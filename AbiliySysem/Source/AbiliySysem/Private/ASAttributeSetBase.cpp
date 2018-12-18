@@ -10,7 +10,7 @@
 #include "UnrealType.h"
 #include "Misc/AssertionMacros.h"
 #include "GameplayEffect.h"
-
+#include "ASCharacterBase.h"
 
 UASAttributeSetBase::UASAttributeSetBase() : Health(200), MaxHealth(200), Mana(150.0f), MaxMana(150.0f), Strength(250.0f), MaxStrength(250.0f)
 {
@@ -29,6 +29,21 @@ void UASAttributeSetBase::PostGameplayEffectExecute(const struct FGameplayEffect
 		Health.SetBaseValue(FMath::Clamp(Health.GetBaseValue(), 0.0f, MaxHealth.GetCurrentValue()));
 		// We are trying to create and delegate and we broadcast it when out health Change so the character can subscribe to it.
 		OnHealthChange.Broadcast(Health.GetCurrentValue(), MaxHealth.GetCurrentValue());
+		AASCharacterBase* CharacterOwner = Cast<AASCharacterBase>(GetOwningActor());
+		if (Health.GetCurrentValue() == MaxHealth.GetCurrentValue())
+		{
+			if (CharacterOwner)
+			{
+				CharacterOwner->AddGameplayTag(CharacterOwner->FullHealthTag);
+			}
+		}
+		else
+		{
+			if (CharacterOwner)
+			{
+				CharacterOwner->RemoveGameplayTag(CharacterOwner->FullHealthTag);
+			}
+		}
 	}
 
 	if (Data.EvaluatedData.Attribute.GetUProperty() ==
