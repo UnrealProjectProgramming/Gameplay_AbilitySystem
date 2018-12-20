@@ -86,10 +86,8 @@ void AASCharacterBase::RemoveGameplayTag(FGameplayTag& TagToRemove)
 
 void AASCharacterBase::OnHealthChanged(float Health, float MaxHealth)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Health: %d, Max Health: %d"), Health, MaxHealth);
 	if (Health <= 0 && !bHasDied)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("DEAD Health: %d, Max Health: %d"), Health, MaxHealth);
 		bHasDied = true;
 		Dead();
 		BP_StartDyingSequence();

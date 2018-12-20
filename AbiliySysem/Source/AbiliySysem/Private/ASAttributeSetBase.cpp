@@ -29,6 +29,7 @@ void UASAttributeSetBase::PostGameplayEffectExecute(const struct FGameplayEffect
 		Health.SetBaseValue(FMath::Clamp(Health.GetBaseValue(), 0.0f, MaxHealth.GetCurrentValue()));
 		// We are trying to create and delegate and we broadcast it when out health Change so the character can subscribe to it.
 		OnHealthChange.Broadcast(Health.GetCurrentValue(), MaxHealth.GetCurrentValue());
+
 		AASCharacterBase* CharacterOwner = Cast<AASCharacterBase>(GetOwningActor());
 		if (Health.GetCurrentValue() == MaxHealth.GetCurrentValue())
 		{
@@ -52,7 +53,7 @@ void UASAttributeSetBase::PostGameplayEffectExecute(const struct FGameplayEffect
 		Mana.SetCurrentValue(FMath::Clamp(Mana.GetCurrentValue(), 0.0f, MaxMana.GetCurrentValue()));
 		Mana.SetBaseValue(FMath::Clamp(Mana.GetBaseValue(), 0.0f, MaxMana.GetCurrentValue()));
 		// We are trying to create and delegate and we broadcast it when out health Change so the character can subscribe to it.
-		OnHealthChange.Broadcast(Mana.GetCurrentValue(), MaxMana.GetCurrentValue());
+		OnManaChange.Broadcast(Mana.GetCurrentValue(), MaxMana.GetCurrentValue());
 	}
 
 	if (Data.EvaluatedData.Attribute.GetUProperty() ==
@@ -61,7 +62,7 @@ void UASAttributeSetBase::PostGameplayEffectExecute(const struct FGameplayEffect
 		Strength.SetCurrentValue(FMath::Clamp(Strength.GetCurrentValue(), 0.0f, MaxStrength.GetCurrentValue()));
 		Strength.SetBaseValue(FMath::Clamp(Strength.GetBaseValue(), 0.0f, MaxStrength.GetCurrentValue()));
 		// We are trying to create and delegate and we broadcast it when out health Change so the character can subscribe to it.
-		OnHealthChange.Broadcast(Strength.GetCurrentValue(), MaxStrength.GetCurrentValue());
+		OnStrengthChange.Broadcast(Strength.GetCurrentValue(), MaxStrength.GetCurrentValue());
 	}
 }
 
