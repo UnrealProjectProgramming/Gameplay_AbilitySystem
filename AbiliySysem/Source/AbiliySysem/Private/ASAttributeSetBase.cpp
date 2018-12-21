@@ -27,7 +27,7 @@ void UASAttributeSetBase::PostGameplayEffectExecute(const struct FGameplayEffect
 	{
 		Health.SetCurrentValue(FMath::Clamp(Health.GetCurrentValue(), 0.0f, MaxHealth.GetCurrentValue()));
 		Health.SetBaseValue(FMath::Clamp(Health.GetBaseValue(), 0.0f, MaxHealth.GetCurrentValue()));
-		// We are trying to create and delegate and we broadcast it when out health Change so the character can subscribe to it.
+		// We are trying to create and delegate and we broadcast it when our health Change so the character can subscribe to it.
 		OnHealthChange.Broadcast(Health.GetCurrentValue(), MaxHealth.GetCurrentValue());
 
 		AASCharacterBase* CharacterOwner = Cast<AASCharacterBase>(GetOwningActor());
