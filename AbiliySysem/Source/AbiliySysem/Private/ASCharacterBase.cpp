@@ -7,8 +7,10 @@
 #include "AIController.h"
 #include "GameFramework/PlayerController.h"
 #include "BrainComponent.h"
+#include "GameFramework/Character.h"
 #include "GameplayTagContainer.h"
-
+#include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/Actor.h"
 // Sets default values
 AASCharacterBase::AASCharacterBase()
 {
@@ -82,6 +84,20 @@ void AASCharacterBase::AddGameplayTag(FGameplayTag& TagToAdd)
 void AASCharacterBase::RemoveGameplayTag(FGameplayTag& TagToRemove)
 {
 	GetAbilitySystemComponent()->RemoveLooseGameplayTag(TagToRemove);
+}
+
+void AASCharacterBase::PushCharacter(FVector ImpulseDirection, float ImpulseeStrength)
+{
+	UCharacterMovementComponent* CharacterMovementComp = GetCharacterMovement();
+	if (CharacterMovementComp)
+	{
+		auto DefaultGroundFriction = CharacterMovementComp->GroundFriction;
+		CharacterMovementComp->GroundFriction = 0;
+		CharacterMovementComp->AddImpulse(ImpulseDirection * ImpulseeStrength, true);
+		GetWorldTimerManager().SetTimer(FrictionReenableDelay_TimeHandle, 0.3f, false);
+		CharacterMovementComp->GroundFriction = DefaultGroundFriction;
+	}
+
 }
 
 void AASCharacterBase::OnHealthChanged(float Health, float MaxHealth)

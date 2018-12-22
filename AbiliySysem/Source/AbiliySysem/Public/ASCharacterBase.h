@@ -46,8 +46,6 @@ public:
 	bool IsOtherHostile(AASCharacterBase* Other);
 
 
-
-
 	UFUNCTION()
 	void OnHealthChanged(float Health, float MaxHealth);
 	UFUNCTION(BlueprintImplementableEvent, Category = "CharacterBase", meta = (DisplayName = "OnHealthChanged"))
@@ -76,10 +74,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
 	void RemoveGameplayTag(FGameplayTag &TagToRemove);
 
+	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
+	void PushCharacter(FVector ImpulseDirection, float ImpuseStrength);
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FGameplayTag FullHealthTag;
 
-	
+
+	FTimerHandle FrictionReenableDelay_TimeHandle;
+
 protected:
 	bool bHasDied;
 
