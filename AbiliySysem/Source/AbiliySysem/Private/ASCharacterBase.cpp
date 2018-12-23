@@ -100,6 +100,8 @@ void AASCharacterBase::PushCharacter(FVector ImpulseDirection, float ImpulseeStr
 
 }
 
+
+
 void AASCharacterBase::OnHealthChanged(float Health, float MaxHealth)
 {
 	if (Health <= 0 && !bHasDied)
@@ -131,6 +133,11 @@ void AASCharacterBase::AutoDetermineTeamIDByControllerType()
 
 void AASCharacterBase::Dead()
 {
+	DisableInputControl();
+}
+
+void AASCharacterBase::DisableInputControl()
+{
 	APlayerController* PC = Cast<APlayerController>(GetController());
 	if (PC)
 	{
@@ -143,3 +150,25 @@ void AASCharacterBase::Dead()
 	}
 }
 
+void AASCharacterBase::EnableInputControl()
+{
+	if (!bHasDied)
+	{
+		APlayerController* PC = Cast<APlayerController>(GetController());
+		if (PC)
+		{
+			PC->EnableInput(PC);
+		}
+		AAIController* AIC = Cast<AAIController>(GetController());
+		if (AIC)
+		{
+			AIC->GetBrainComponent()->RestartLogic();
+		}
+	}
+}
+
+void AASCharacterBase::Stun(float StunTime)
+{
+	DisableInputControl();
+	GetWorldTimerManager().SetTimer(Stun_TimeHandle, this, &AASCharacterBase::EnableInputControl, StunTime, false);
+}
