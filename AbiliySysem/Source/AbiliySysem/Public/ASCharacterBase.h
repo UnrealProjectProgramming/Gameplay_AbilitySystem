@@ -9,6 +9,7 @@
 #include "ASCharacterBase.generated.h"
 
 class UASAttributeSetBase;
+class UGameplayAbilityBase;
 struct FGameplayTag;
 
 UCLASS()
@@ -41,6 +42,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
 	void AquireAbility(TSubclassOf<class UGameplayAbility> AbilityToAquire);
+
+	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
+	void AquireAbilities(TArray<TSubclassOf<class UGameplayAbility>> AbilitiesToAquire);
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "CharacterBase")
 	bool IsOtherHostile(AASCharacterBase* Other);
@@ -91,5 +95,6 @@ protected:
 	void Dead();
 	void DisableInputControl();
 	void EnableInputControl();
+	void AddAbilityToUI(TSubclassOf<UGameplayAbilityBase> AbilityToAdd);
 
 };

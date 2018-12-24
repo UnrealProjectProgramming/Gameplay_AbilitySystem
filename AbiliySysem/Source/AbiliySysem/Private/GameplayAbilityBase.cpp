@@ -2,7 +2,7 @@
 
 #include "GameplayAbilityBase.h"
 
-FGamePlayAbilityInfo UGameplayAbilityBase::AbilityInfo()
+FGamePlayAbilityInfo UGameplayAbilityBase::GetAbilityInfo()
 {
 	UGameplayEffect* CooldownEffect = GetCooldownGameplayEffect();
 	UGameplayEffect* CostEffect = GetCostGameplayEffect();

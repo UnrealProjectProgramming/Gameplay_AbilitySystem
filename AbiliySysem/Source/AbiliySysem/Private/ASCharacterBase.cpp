@@ -11,6 +11,10 @@
 #include "GameplayTagContainer.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Actor.h"
+#include "ASPlayerControllerBase.h"
+#include "GameplayAbilityBase.h"
+
+
 // Sets default values
 AASCharacterBase::AASCharacterBase()
 {
@@ -67,6 +71,22 @@ void AASCharacterBase::AquireAbility(TSubclassOf<UGameplayAbility> AbilityToAqui
 			AbilitySystemComp->GiveAbility(FGameplayAbilitySpec(AbilityToAquire, 1, 0));
 		}
 		AbilitySystemComp->InitAbilityActorInfo(this, this);
+	}
+}
+
+void AASCharacterBase::AquireAbilities(TArray<TSubclassOf<class UGameplayAbility>> AbilitiesToAquire)
+{
+	for (auto AbilityToAquire : AbilitiesToAquire)
+	{
+		AquireAbility(AbilityToAquire);
+		if (AbilityToAquire->IsChildOf(UGameplayAbilityBase::StaticClass()))
+		{
+			TSubclassOf<UGameplayAbilityBase> AbilityBaseClass = AbilityToAquire.Get(); // Dereference back into the class , we can allso write it *AbilityToAquire
+			if (AbilityBaseClass)
+			{
+				AddAbilityToUI(AbilityBaseClass);
+			}
+		}
 	}
 }
 
@@ -163,6 +183,20 @@ void AASCharacterBase::EnableInputControl()
 		if (AIC)
 		{
 			AIC->GetBrainComponent()->RestartLogic();
+		}
+	}
+}
+
+void AASCharacterBase::AddAbilityToUI(TSubclassOf<UGameplayAbilityBase> AbilityToAdd)
+{
+	AASPlayerControllerBase* PlayerControllerBase = Cast<AASPlayerControllerBase>(GetController());
+	if (PlayerControllerBase)
+	{
+		UGameplayAbilityBase* AbilityInstance = AbilityToAdd.Get()->GetDefaultObject<UGameplayAbilityBase>();
+		if (AbilityInstance)
+		{
+			FGamePlayAbilityInfo AbilityInfo = AbilityInstance->GetAbilityInfo();
+			PlayerControllerBase->AddAbilityToUI(AbilityInfo);
 		}
 	}
 }

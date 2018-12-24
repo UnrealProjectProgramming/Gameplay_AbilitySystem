@@ -25,6 +25,6 @@ public:
 	UMaterialInstance* UIMaterial;
 
 	UFUNCTION(BlueprintCallable, Category = "AbilityBase")
-	FGamePlayAbilityInfo AbilityInfo();
+	FGamePlayAbilityInfo GetAbilityInfo();
 	
 };
