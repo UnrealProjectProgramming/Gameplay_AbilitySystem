@@ -106,7 +106,7 @@ void AASCharacterBase::RemoveGameplayTag(FGameplayTag& TagToRemove)
 	GetAbilitySystemComponent()->RemoveLooseGameplayTag(TagToRemove);
 }
 
-void AASCharacterBase::PushCharacter(FVector ImpulseDirection, float ImpulseeStrength)
+void AASCharacterBase::PushCharacter(FVector ImpulseDirection, float ImpulseeStrength, float StunDuration)
 {
 	UCharacterMovementComponent* CharacterMovementComp = GetCharacterMovement();
 	if (CharacterMovementComp)
@@ -114,12 +114,14 @@ void AASCharacterBase::PushCharacter(FVector ImpulseDirection, float ImpulseeStr
 		auto DefaultGroundFriction = CharacterMovementComp->GroundFriction;
 		CharacterMovementComp->GroundFriction = 0;
 		CharacterMovementComp->AddImpulse(ImpulseDirection * ImpulseeStrength, true);
-		GetWorldTimerManager().SetTimer(FrictionReenableDelay_TimeHandle, 0.3f, false);
+
+		Stun_TimerDelegate.BindUFunction(this, "Stun", StunDuration);
+		GetWorldTimerManager().SetTimer(FrictionReenableDelay_TimeHandle, Stun_TimerDelegate, StunDuration, false);
+
 		CharacterMovementComp->GroundFriction = DefaultGroundFriction;
 	}
 
 }
-
 
 
 void AASCharacterBase::OnHealthChanged(float Health, float MaxHealth)

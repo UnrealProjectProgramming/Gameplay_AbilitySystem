@@ -78,7 +78,7 @@ public:
 	void RemoveGameplayTag(FGameplayTag &TagToRemove);
 
 	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
-	void PushCharacter(FVector ImpulseDirection, float ImpuseStrength);
+	void PushCharacter(FVector ImpulseDirection, float ImpuseStrength, float StunDuration);
 
 	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
 	void Stun(float StunTime);
@@ -91,6 +91,7 @@ protected:
 	uint8 TeamID;
 	FTimerHandle FrictionReenableDelay_TimeHandle;
 	FTimerHandle Stun_TimeHandle;
+	FTimerDelegate Stun_TimerDelegate;
 
 	void Dead();
 	void DisableInputControl();
