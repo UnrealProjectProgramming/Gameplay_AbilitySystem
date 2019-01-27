@@ -4,6 +4,7 @@
 
 
 #include "Abilities/GameplayAbility.h"
+#include "DrawDebugHelpers.h"
 
 void AGATargetActorGroundSelect::StartTargeting(UGameplayAbility* Ability)
 {
@@ -44,6 +45,24 @@ void AGATargetActorGroundSelect::ConfirmTargetingAndContinue()
 			}
 		}
 	}
+
+	if (OverlappedActors.Num() > 0)
+	{
+		FGameplayAbilityTargetDataHandle TargetData = StartLocation.MakeTargetDataHandleFromActors(OverlappedActors);
+		TargetDataReadyDelegate.Broadcast(TargetData);
+	}
+	else
+	{
+		TargetDataReadyDelegate.Broadcast(FGameplayAbilityTargetDataHandle());
+	}
+}
+
+void AGATargetActorGroundSelect::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	FVector ViewPoint;
+	GetPlayerLookingPoint(ViewPoint);
+	DrawDebugSphere(GetWorld(), ViewPoint, SphereRadius, 32, FColor::Red, true, -1.0f, 0.0f, 5.0f);
 }
 
 bool AGATargetActorGroundSelect::GetPlayerLookingPoint(OUT FVector& OutViewPoint)

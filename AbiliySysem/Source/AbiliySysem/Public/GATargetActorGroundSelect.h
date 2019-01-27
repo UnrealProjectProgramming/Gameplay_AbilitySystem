@@ -19,6 +19,7 @@ class ABILIYSYSEM_API AGATargetActorGroundSelect : public AGameplayAbilityTarget
 public:
 	virtual void StartTargeting(UGameplayAbility* Ability) override;
 	virtual void ConfirmTargetingAndContinue() override;
+	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION(BlueprintCallable, Category = "GroundSelect")
 	bool GetPlayerLookingPoint(FVector& OutViewPoint);
