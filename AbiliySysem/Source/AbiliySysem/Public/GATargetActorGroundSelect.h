@@ -20,4 +20,11 @@ public:
 	virtual void StartTargeting(UGameplayAbility* Ability) override;
 	virtual void ConfirmTargetingAndContinue() override;
 
+	UFUNCTION(BlueprintCallable, Category = "GroundSelect")
+	bool GetPlayerLookingPoint(FVector& OutViewPoint);
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GroundSelect")
+	float SphereRadius;
+
 };
