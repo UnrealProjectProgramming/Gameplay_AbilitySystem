@@ -6,6 +6,11 @@
 #include "Abilities/GameplayAbility.h"
 #include "DrawDebugHelpers.h"
 
+AGATargetActorGroundSelect::AGATargetActorGroundSelect()
+{
+	PrimaryActorTick.bCanEverTick = true;
+}
+
 void AGATargetActorGroundSelect::StartTargeting(UGameplayAbility* Ability)
 {
 	OwningAbility = Ability;
@@ -62,10 +67,10 @@ void AGATargetActorGroundSelect::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 	FVector ViewPoint;
 	GetPlayerLookingPoint(ViewPoint);
-	DrawDebugSphere(GetWorld(), ViewPoint, SphereRadius, 32, FColor::Red, true, -1.0f, 0.0f, 5.0f);
+	DrawDebugSphere(GetWorld(), ViewPoint, SphereRadius, 32, FColor::Red, false, -1.0f, 0.0f, 5.0f);
 }
 
-bool AGATargetActorGroundSelect::GetPlayerLookingPoint(OUT FVector& OutViewPoint)
+bool AGATargetActorGroundSelect::GetPlayerLookingPoint(FVector& OutViewPoint)
 {
 	FVector ViewPoint;
 	FRotator ViewRotation;

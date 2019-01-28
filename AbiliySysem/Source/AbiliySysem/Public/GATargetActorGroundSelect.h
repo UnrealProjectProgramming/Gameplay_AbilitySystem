@@ -17,6 +17,7 @@ class ABILIYSYSEM_API AGATargetActorGroundSelect : public AGameplayAbilityTarget
 	GENERATED_BODY()
 	
 public:
+	AGATargetActorGroundSelect();
 	virtual void StartTargeting(UGameplayAbility* Ability) override;
 	virtual void ConfirmTargetingAndContinue() override;
 	virtual void Tick(float DeltaSeconds) override;
@@ -25,7 +26,7 @@ public:
 	bool GetPlayerLookingPoint(FVector& OutViewPoint);
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GroundSelect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ExposeOnSpawn = true),Category = "GroundSelect")
 	float SphereRadius;
 
 };
