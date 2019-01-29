@@ -5,16 +5,26 @@
 
 #include "Abilities/GameplayAbility.h"
 #include "DrawDebugHelpers.h"
+#include "Components/DecalComponent.h"
+#include "Components/SceneComponent.h"
 
 AGATargetActorGroundSelect::AGATargetActorGroundSelect()
 {
 	PrimaryActorTick.bCanEverTick = true;
+
+	DecalComp = CreateDefaultSubobject<UDecalComponent>(TEXT("Decal Component"));
+	SceneComp = CreateDefaultSubobject<USceneComponent>(TEXT("Scene Component"));
+	DecalComp->DecalSize = FVector(SphereRadius);
+	SetRootComponent(SceneComp);
+	DecalComp->SetupAttachment(SceneComp);
+	
 }
 
 void AGATargetActorGroundSelect::StartTargeting(UGameplayAbility* Ability)
 {
 	OwningAbility = Ability;
 	MasterPC = Cast<APlayerController>(Ability->GetOwningActorFromActorInfo()->GetInstigatorController());
+	DecalComp->DecalSize = FVector(SphereRadius);
 }
 
 void AGATargetActorGroundSelect::ConfirmTargetingAndContinue()
@@ -67,7 +77,7 @@ void AGATargetActorGroundSelect::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 	FVector ViewPoint;
 	GetPlayerLookingPoint(ViewPoint);
-	DrawDebugSphere(GetWorld(), ViewPoint, SphereRadius, 32, FColor::Red, false, -1.0f, 0.0f, 5.0f);
+	DecalComp->SetWorldLocation(ViewPoint);
 }
 
 bool AGATargetActorGroundSelect::GetPlayerLookingPoint(FVector& OutViewPoint)

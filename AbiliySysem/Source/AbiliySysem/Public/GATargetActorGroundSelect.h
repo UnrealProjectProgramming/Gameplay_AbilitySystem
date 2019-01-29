@@ -7,7 +7,8 @@
 #include "GATargetActorGroundSelect.generated.h"
 
 class UGameplayAbility;
-
+class UDecalComponent;
+class USceneComponent;
 /**
  * 
  */
@@ -29,4 +30,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ExposeOnSpawn = true),Category = "GroundSelect")
 	float SphereRadius;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "GroundSelect")
+	UDecalComponent* DecalComp;
+
+	USceneComponent* SceneComp;
 };
