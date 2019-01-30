@@ -124,6 +124,13 @@ void AASCharacterBase::PushCharacter(FVector ImpulseDirection, float ImpulseeStr
 }
 
 
+void AASCharacterBase::Stun(float StunTime)
+{
+	DisableInputControl();
+	GetWorldTimerManager().SetTimer(Stun_TimeHandle, this, &AASCharacterBase::EnableInputControl, StunTime, false);
+}
+
+
 void AASCharacterBase::OnHealthChanged(float Health, float MaxHealth)
 {
 	if (Health <= 0 && !bHasDied)
@@ -201,10 +208,4 @@ void AASCharacterBase::AddAbilityToUI(TSubclassOf<UGameplayAbilityBase> AbilityT
 			PlayerControllerBase->AddAbilityToUI(AbilityInfo);
 		}
 	}
-}
-
-void AASCharacterBase::Stun(float StunTime)
-{
-	DisableInputControl();
-	GetWorldTimerManager().SetTimer(Stun_TimeHandle, this, &AASCharacterBase::EnableInputControl, StunTime, false);
 }
