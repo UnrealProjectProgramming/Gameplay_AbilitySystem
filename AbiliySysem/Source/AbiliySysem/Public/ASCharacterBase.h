@@ -83,6 +83,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
 	void Stun(float StunTime);
 
+	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
+	void ApplyGESpecHandleToTargetDataSpecHandle(const FGameplayEffectSpecHandle& GESpecHandle, const FGameplayAbilityTargetDataHandle& TargetDataHandle);
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FGameplayTag FullHealthTag;
 	

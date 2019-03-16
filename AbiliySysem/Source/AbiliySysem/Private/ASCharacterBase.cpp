@@ -131,6 +131,14 @@ void AASCharacterBase::Stun(float StunTime)
 }
 
 
+void AASCharacterBase::ApplyGESpecHandleToTargetDataSpecHandle(const FGameplayEffectSpecHandle& GESpecHandle, const FGameplayAbilityTargetDataHandle& TargetDataHandle)
+{
+	for (TSharedPtr<FGameplayAbilityTargetData> Data : TargetDataHandle.Data)
+	{
+		Data->ApplyGameplayEffectSpec(*GESpecHandle.Data.Get());
+	}
+}
+
 void AASCharacterBase::OnHealthChanged(float Health, float MaxHealth)
 {
 	if (Health <= 0 && !bHasDied)
