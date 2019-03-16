@@ -12,7 +12,10 @@
 #include "GameplayEffect.h"
 #include "ASCharacterBase.h"
 
-UASAttributeSetBase::UASAttributeSetBase() : Health(200), MaxHealth(200), Mana(150.0f), MaxMana(150.0f), Strength(250.0f), MaxStrength(250.0f)
+UASAttributeSetBase::UASAttributeSetBase() : Health(200), MaxHealth(200), Mana(150.0f), MaxMana(150.0f), 
+											 Strength(250.0f), MaxStrength(250.0f), AttackDamage(20.0f),
+											 Armor(5.0f)
+											
 {
 	
 }
